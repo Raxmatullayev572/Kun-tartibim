@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hojiakbar — Haftalik Rejim</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --card: #111118;
+    --border: #1e1e2e;
+    --accent: #6c63ff;
+    --accent2: #ff6584;
+    --accent3: #43e97b;
+    --accent4: #f7971e;
+    --accent5: #4facfe;
+    --text: #e8e8f0;
+    --muted: #6b6b80;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Space Grotesk', sans-serif;
+    min-height: 100vh;
+    padding: 24px 16px 48px;
+  }
+  .header {
+    text-align: center;
+    margin-bottom: 36px;
+    position: relative;
+  }
+  .header::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(108,99,255,0.15) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .header h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: 2rem;
+    font-weight: 800;
+    letter-spacing: -1px;
+    background: linear-gradient(135deg, #6c63ff, #ff6584);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .header p {
+    color: var(--muted);
+    font-size: 0.85rem;
+    margin-top: 6px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  /* Fixed blocks */
+  .fixed-block {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 24px;
+  }
+  .fixed-block h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.75rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 14px;
+  }
+  .fixed-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .fixed-row:last-child { border-bottom: none; }
+  .time-badge {
+    background: rgba(108,99,255,0.12);
+    color: var(--accent);
+    font-size: 0.78rem;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 8px;
+    white-space: nowrap;
+    min-width: 60px;
+    text-align: center;
+  }
+  .fixed-row span { font-size: 0.88rem; color: var(--text); }
+
+  /* Days */
+  .days-grid {
+    display: grid;
+    gap: 20px;
+  }
+  .day-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+  }
+  .day-header {
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  .day-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+  }
+  .day-tag {
+    font-size: 0.72rem;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+  }
+  .green { background: rgba(67,233,123,0.12); color: var(--accent3); border-color: rgba(67,233,123,0.2); }
+  .blue { background: rgba(79,172,254,0.12); color: var(--accent5); border-color: rgba(79,172,254,0.2); }
+  .orange { background: rgba(247,151,30,0.12); color: var(--accent4); border-color: rgba(247,151,30,0.2); }
+  .pink { background: rgba(255,101,132,0.12); color: var(--accent2); border-color: rgba(255,101,132,0.2); }
+  .purple { background: rgba(108,99,255,0.12); color: var(--accent); border-color: rgba(108,99,255,0.2); }
+
+  .schedule-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 11px 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    transition: background 0.2s;
+  }
+  .schedule-row:last-child { border-bottom: none; }
+  .schedule-row:hover { background: rgba(255,255,255,0.02); }
+  .t {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--muted);
+    min-width: 90px;
+    white-space: nowrap;
+  }
+  .icon { font-size: 1rem; }
+  .activity { font-size: 0.85rem; color: var(--text); }
+  .highlight-dars {
+    background: rgba(108,99,255,0.06);
+  }
+  .highlight-sport {
+    background: rgba(67,233,123,0.04);
+  }
+  .highlight-deep {
+    background: rgba(247,151,30,0.04);
+  }
+  .highlight-namoz {
+    background: rgba(79,172,254,0.04);
+  }
+
+  /* Stats */
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-top: 24px;
+  }
+  .stat-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 16px;
+    text-align: center;
+  }
+  .stat-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.6rem;
+    font-weight: 800;
+  }
+  .stat-label {
+    font-size: 0.75rem;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+
+  .tip-box {
+    margin-top: 24px;
+    background: linear-gradient(135deg, rgba(108,99,255,0.1), rgba(255,101,132,0.1));
+    border: 1px solid rgba(108,99,255,0.2);
+    border-radius: 14px;
+    padding: 18px;
+    font-size: 0.85rem;
+    line-height: 1.6;
+    color: var(--text);
+  }
+  .tip-box strong { color: var(--accent); }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Haftalik Rejim</h1>
+  <p>Hojiakbar · 2025</p>
+</div>
+
+<!-- Fixed blocks -->
+<div class="fixed-block">
+  <h2>🔁 Har kuni o'zgarmas</h2>
+  <div class="fixed-row">
+    <span class="time-badge">05:30</span>
+    <span>🕌 Bomdod namoz</span>
+  </div>
+  <div class="fixed-row">
+    <span class="time-badge">06:00</span>
+    <span>🚿 Uyg'onish, yuvinish</span>
+  </div>
+  <div class="fixed-row">
+    <span class="time-badge">06:30</span>
+    <span>🍳 Nonushta + tayyorgarlik</span>
+  </div>
+  <div class="fixed-row">
+    <span class="time-badge">23:00</span>
+    <span>🌙 Xufton namoz + uyqu</span>
+  </div>
+</div>
+
+<!-- Days -->
+<div class="days-grid">
+
+  <!-- DU/SE/CH -->
+  <div class="day-card">
+    <div class="day-header">
+      <span class="day-name">Dushanba · Seshanba · Chorshanba</span>
+      <span class="day-tag purple">1, 2, 3 para</span>
+    </div>
+    <div class="schedule-row"><span class="t">07:30</span><span class="icon">🚶</span><span class="activity">Universitetga yo'l</span></div>
+    <div class="schedule-row highlight-dars"><span class="t">08:30–09:50</span><span class="icon">🎓</span><span class="activity">1-para</span></div>
+    <div class="schedule-row highlight-namoz"><span class="t">09:50–10:00</span><span class="icon">⏸</span><span class="activity">Tanaffus</span></div>
+    <div class="schedule-row highlight-dars"><span class="t">10:00–11:20</span><span class="icon">🎓</span><span class="activity">2-para</span></div>
+    <div class="schedule-row highlight-namoz"><span class="t">11:20–11:30</span><span class="icon">⏸</span><span class="activity">Tanaffus</span></div>
+    <div class="schedule-row highlight-dars"><span class="t">11:30–12:50</span><span class="icon">🎓</span><span class="activity">3-para</span></div>
+    <div class="schedule-row"><span class="t">12:50–13:30</span><span class="icon">🍽</span><span class="activity">Tushlik + Zuhr namoz</span></div>
+    <div class="schedule-row highlight-deep"><span class="t">13:30–15:30</span><span class="icon">📚</span><span class="activity">JS / React o'rganish</span></div>
+    <div class="schedule-row highlight-deep"><span class="t">15:30–16:30</span><span class="icon">🎨</span><span class="activity">HAW Academy kurs kontenti</span></div>
+    <div class="schedule-row highlight-sport"><span class="t">16:30–17:30</span><span class="icon">💪</span><span class="activity">Sport / arm wrestling</span></div>
+    <div class="schedule-row highlight-namoz"><span class="t">17:30–18:00</span><span class="icon">🕌</span><span class="activity">Asr namoz + dam</span></div>
+    <div class="schedule-row"><span class="t">18:00–18:30</span><span class="icon">🍽</span><span class="activity">Kechki ovqat</span></div>
+    <div class="schedule-row highlight-deep"><span class="t">18:30–20:30</span><span class="icon">📱</span><span class="activity">Instagram @haw.web — post / reels</span></div>
+    <div class="schedule-row highlight-namoz"><span class="t">20:30–21:00</span><span class="icon">🕌</span><span class="activity">Shom namoz</span></div>
+    <div class="schedule-row"><span class="t">21:00–22:30</span><span class="icon">📖</span><span class="activity">Kitob / tahlil</span></div>
+    <div class="schedule-row"><span class="t">22:30–23:00</span><span class="icon">🛋</span><span class="activity">Yengil dam</span></div>
+  </div>
+
+  <!-- Payshanba -->
+  <div class="day-card">
+    <div class="day-header">
+      <span class="day-name">Payshanba</span>
+      <span class="day-tag orange">1, 2, 4 para</span>
+    </div>
+    <div class="schedule-row"><span class="t">07:30</span><span class="icon">🚶</span><span class="activity">Universitetga yo'l</span></div>
+    <div class="schedule-row highlight-dars"><span class="t">08:30–09:50</span><span class="icon">🎓</span><span class="activity">1-para</span></div>
+    <div class="schedule-row highlight-namoz"><span class="t">09:50–10:00</span><span class="icon">⏸</span><span class="activity">Tanaffus</span></div>
+    <div class="schedule-row highlight-dars"><span class="t">10:00–11:20</span><span class="icon">🎓</span><span class="activity">2-para</span></div>
+    <div class="schedule-row highlight-deep"><span class="t">11:30–13:00</span><span class="icon">🔥</span><span class="activity">Bo'sh para → Deep work (katta loyiha)</span></div>
+    <div class="schedule-row highlight-dars"><span class="t">13:00–14:20</span><span class="icon">🎓</span><span class="activity">4-para</span></div>
+    <div class="schedule-row"><span class="t">14:20–15:00</span><span class="icon">🍽</span><span class="activity">Tushlik + Zuhr namoz</span></div>
+    <div class="schedule-row highlight-deep"><span class="t">15:00–16:30</span><span class="icon">📚</span><span class="activity">O'qish / yangi texnologiya</span></div>
+    <div class="schedule-row highlight-sport"><span class="t">16:30–17:30</span><span class="icon">💪</span><span class="activity">Sport / arm wrestling</span></div>
+    <div class="schedule-row highlight-namoz"><span class="t">17:30–18:00</span><span class="icon">🕌</span><span class="activity">Asr namoz + dam</span></div>
+    <div class="schedule-row"><span class="t">18:00–18:30</span><span class="icon">🍽</span><span class="activity">Kechki ovqat</span></div>
+    <div class="schedule-row highlight-deep"><span class="t">18:30–20:30</span><span class="icon">🛠</span><span class="activity">HAW Academy / haw.web kontent</span></div>
+    <div class="schedule-row highlight-namoz"><span class="t">20:30–21:00</span><span class="icon">🕌</span><span class="activity">Shom namoz</span></div>
+    <div class="schedule-row"><span class="t">21:00–22:30</span><span class="icon">📖</span><span class="activity">Kitob / dam</span></div>
+  </div>
+
+  <!-- Juma -->
+  <div class="day-card">
+    <div class="day-header">
+      <span class="day-name">Juma</span>
+      <span class="day-tag green">2, 3, 4 para</span>
+    </div>
+    <div class="schedule-row highlight-deep"><span class="t">06:00–09:30</span><span class="icon">🔥</span><span class="activity">Ertalabki deep work (3.5 soat!)</span></div>
+    <div class="schedule-row"><span class="t">09:30</span><span class="icon">🚶</span><span class="activity">Universitetga yo'l</span></div>
+    <div class="schedule-row highlight-dars"><span class="t">10:00–11:20</span><span class="icon">🎓</span><span class="activity">2-para</span></div>
+    <div class="schedule-row highlight-namoz"><span class="t">11:20–11:30</span><span class="icon">⏸</span><span class="activity">Tanaffus</span></div>
+    <div class="schedule-row highlight-dars"><span class="t">11:30–12:50</span><span class="icon">🎓</span><span class="activity">3-para</span></div>
+    <div class="schedule-row highlight-namoz"><span class="t">12:50–13:00</span><span class="icon">🕌</span><span class="activity">Juma namoziga tayyorgarlik</span></div>
+    <div class="schedule-row highlight-namoz"><span class="t">13:00–13:30</span><span class="icon">🕌</span><span class="activity">Juma namozi</span></div>
+    <div class="schedule-row highlight-dars"><span class="t">13:30–14:20</span><span class="icon">🎓</span><span class="activity">4-para (agar imkon bo'lsa)</span></div>
+    <div class="schedule-row"><span class="t">14:20–15:00</span><span class="icon">🍽</span><span class="activity">Tushlik</span></div>
+    <div class="schedule-row"><span class="t">15:00–17:00</span><span class="icon">🛋</span><span class="activity">Yengil dam (haftaning tiklash vaqti)</span></div>
+    <div class="schedule-row highlight-deep"><span class="t">17:00–19:00</span><span class="icon">🎨</span><span class="activity">Kurs / Instagram kontent</span></div>
+    <div class="schedule-row"><span class="t">19:00+</span><span class="icon">🏠</span><span class="activity">Oila, to'liq dam</span></div>
+  </div>
+
+</div>
+
+<!-- Stats -->
+<div class="stats">
+  <div class="stat-card">
+    <div class="stat-num" style="color:#6c63ff">7h</div>
+    <div class="stat-label">😴 Uyqu</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-num" style="color:#4facfe">5.5h</div>
+    <div class="stat-label">🎓 Dars + yo'l</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-num" style="color:#f7971e">3h</div>
+    <div class="stat-label">🔥 O'qish / kurs</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-num" style="color:#43e97b">1h</div>
+    <div class="stat-label">💪 Sport</div>
+  </div>
+</div>
+
+<div class="tip-box">
+  💡 <strong>Juma 06:00–09:30</strong> — haftadagi eng qimmat 3.5 soating. Miya toza, hech kim bezovta qilmaydi. Shu vaqtni doim <strong>eng katta ishga</strong> bag'ishla.
+</div>
+
+</body>
+  </html>
+  
